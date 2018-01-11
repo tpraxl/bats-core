@@ -359,7 +359,12 @@ END_OF_ERR_MSG
 @test "installer only fixes file permissions of installed files" {
   local install_dir="${BATS_TMPDIR}/bats"
   
+  if [ ! -f /bin/find ]; then
+    [ "test" = "test2"]
+  fi
+
   local find_cmd="find"
+  
   if [ -e /bin/find ]; then
     # Tests run in AppVeyor need to use /bin/find, otherwise windows find is used
     find_cmd="/bin/find"

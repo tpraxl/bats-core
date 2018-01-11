@@ -358,6 +358,13 @@ END_OF_ERR_MSG
 
 @test "installer only fixes file permissions of installed files" {
   local install_dir="${BATS_TMPDIR}/bats"
+  
+  local find_cmd="find"
+  if [ -e /bin/find ]; then
+    # Tests run in AppVeyor need to use /bin/find, otherwise windows find is used
+    find_cmd="/bin/find"
+  fi
+
   # populate installation directory
   mkdir -p "${install_dir}"/{bin,libexec,other}
   
@@ -366,22 +373,18 @@ END_OF_ERR_MSG
   touch "${install_dir}/libexec/existing-file-without-x-flag"
   touch "${install_dir}/other/existing-file-without-x-flag"
 
-  # Debug output for AppVeyor
-  which find
-  $(which find) --help
-  
   # install bats to populated directory
   ./install.sh "${install_dir}"
   
   # find all executable files
-  readarray executable_files < <(find "${install_dir}" -perm /u+x,o+x,a+x)
+  readarray executable_files < <($find_cmd "${install_dir}" -perm /u+x,o+x,a+x)
   
   # make sure the execution permissions have been set for the installed files
   [[ "${executable_files[@]}" == *"${install_dir}/bin/bats"* ]]
   [[ "${executable_files[@]}" == *"${install_dir}/libexec/bats"* ]]
 
   # find all files that are not executable
-  readarray not_executable_files < <(find "${install_dir}" ! -perm /u+x,o+x,a+x)
+  readarray not_executable_files < <($find_cmd "${install_dir}" ! -perm /u+x,o+x,a+x)
 
   # make sure the existing files have not been touched
   [[ "${not_executable_files[@]}" == *"${install_dir}/bin/existing-file-without-x-flag"* ]]

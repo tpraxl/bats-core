@@ -366,6 +366,11 @@ END_OF_ERR_MSG
   # install bats to populated directory
   ./install.sh "${BATS_TMPDIR}"
   # make sure the execution permissions have been set for the installed files
+  
+  echo $(read_permissions "${BATS_TMPDIR}/bin/bats")
+  echo $(read_permissions "${BATS_TMPDIR}/libexec/bats")
+  echo $(read_permissions "${BATS_TMPDIR}/libexec/existing-file-without-x-flag")
+
   [ $(read_permissions "${BATS_TMPDIR}/bin/bats") = "lrwxrwxrwx" ]
   [ $(read_permissions "${BATS_TMPDIR}/libexec/bats") = "-rwxrwxr-x" ]
   # make sure the existing files have not been touched

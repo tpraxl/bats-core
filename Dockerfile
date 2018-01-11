@@ -5,6 +5,6 @@ COPY . /opt/bats/
 RUN apk --no-cache add bash \
     && ln -s /opt/bats/libexec/bats /usr/sbin/bats
 
-WORKDIR /code
+WORKDIR /opt/bats/
 
 ENTRYPOINT ["bats"]

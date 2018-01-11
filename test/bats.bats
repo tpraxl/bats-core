@@ -367,12 +367,12 @@ END_OF_ERR_MSG
   touch "${install_dir}/other/existing-file-without-x-flag"
   
   # install bats to populated directory
-  ./install.sh "${install_dir}"
+  run ./install.sh "${install_dir}"
+  [ "$status" -eq 0 ]
   
   # find all executable files
   readarray executable_files < <(find "${install_dir}" -executable)
   
-  echo "${executable_files[@]}"
   # make sure the execution permissions have been set for the installed files
   [[ "${executable_files[@]}" == *"${install_dir}/bin/bats"* ]]
   [[ "${executable_files[@]}" == *"${install_dir}/libexec/bats"* ]]

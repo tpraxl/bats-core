@@ -365,9 +365,12 @@ END_OF_ERR_MSG
   touch "${install_dir}/bin/existing-file-without-x-flag"
   touch "${install_dir}/libexec/existing-file-without-x-flag"
   touch "${install_dir}/other/existing-file-without-x-flag"
+
+  # Debug output for AppVeyor
+  which find
+  $(which find) --help
   
   # install bats to populated directory
-  
   ./install.sh "${install_dir}"
   
   # find all executable files

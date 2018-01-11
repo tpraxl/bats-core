@@ -12,4 +12,6 @@ build: off
 test_script:
   - where bash
   - bash --version
+  - bash -c 'which find'
+  - bash -c 'find --help'
   - bash -c 'time libexec/bats test'

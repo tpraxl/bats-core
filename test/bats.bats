@@ -367,8 +367,7 @@ END_OF_ERR_MSG
   touch "${install_dir}/other/existing-file-without-x-flag"
   
   # install bats to populated directory
-  run ./install.sh "${install_dir}"
-  [ "$status" -eq 0 ]
+  /bin/bash ./install.sh "${install_dir}"
   
   # find all executable files
   readarray executable_files < <(find "${install_dir}" -executable)
